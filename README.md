@@ -1,20 +1,23 @@
-# Kitchen Master 2nd version Initialize
+# Robot in the Kitchen : RoKi
 
-### Communication Pannel 
-- controller 
+## Description
+- This project is Upgrade version of [KitchenMaster](https://github.com/MinTpie30/KitchenMaster)
 
+## Configuration
+### Advanced Robot Assistance System
+#### Trajectory Planning Algorithm
 
-### Trajectory Planning Algorithm
+#### Integrated Algorithms
 
-### End-Effector Algorithm
-
-### Integrated Algorithms
-
-### Management App 
-
-### Utility
+### flask Remote Controller 
+#### Front-End
+#### Back-End
+## Utils
 - KinematicSim
 Verification of the kinematical principle of the robotics model
 
+- Application
+ 
 ## Contributors
-- version 2 Contributors : Junho Shin, EngHo Shin
+- Junho Shin : S/W Design, PM
+- EngHo Shin : H/W Design
