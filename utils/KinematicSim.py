@@ -12,8 +12,20 @@ class KinematicSim:
     def __init__(self, *args, **kwargs): # initialize to manipulator
         pass
 
-    def forward_kinematics():
+
+    def prismatic():
         pass
 
-    def inverse_kinematics(target):
+    def revolute():
         pass
+
+    
+    def forward_kinematics(): # fk_module will be return target point coordination
+        
+        target = -1
+        return target
+
+    def inverse_kinematics(target): # ik_module will be return joint theta from fk_solution
+        
+        sol = -1
+        return sol
