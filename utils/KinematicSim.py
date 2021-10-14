@@ -23,7 +23,12 @@ class KinematicSim:
         pass
 
     def revolute(self):
-        pass
+        rev_mat =[
+            [cos(sum(theta))*sin(theta), -sin(theta), -sin(sum(theta))*cos(theta)],
+            [cos(sum(theta)), cos(theta), -sin(sum(theta)*sin(theta))],
+            [sin(theta), 0, cos(theta)]
+            ]
+        return rev_mat
 
 
     '''
