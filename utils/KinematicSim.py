@@ -8,6 +8,7 @@ Created by Junho Shin in Sep.2021
 import numpy as np
 from numpy import sin, cos, arcsin, tan, pi
 import sys
+import pandas as pd
 
 class KinematicSim:
     def __init__(self, *args, **kwargs): # initialize to manipulator
@@ -22,18 +23,30 @@ class KinematicSim:
         pass
 
     def revolute(self):
-        pass
+        rev_mat =[
+            [cos(sum(theta))*sin(theta), -sin(theta), -sin(sum(theta))*cos(theta)],
+            [cos(sum(theta)), cos(theta), -sin(sum(theta)*sin(theta))],
+            [sin(theta), 0, cos(theta)]
+            ]
+        return rev_mat
 
 
     '''
     Below two modules about 
     '''
     def DH_table(self):
-        pass
+        theta_list = []
+        dist_list = []
+        link_list = []
+        alpha_list = []
+
+        table = [theta_list, dist_list, link_list, alpha_list]
+        DH = pd.DataFrame(table)
+        
+        return DH
 
     def transform_Mat(self):
         pass
-
 
     '''
     Below two modules defined for solving kinematics solution from Kinematics Theory
