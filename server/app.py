@@ -5,12 +5,12 @@ Written by Junho Shin, 09-2021
 
 from flask import Flask, render_template
 
-app = Flask(__name__)
+app = Flask(__name__) # Flask object instance 
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/') #url routing
+def index(): # View function call 
+    return render_template('index.html') # template, seem to user
 
 # Login function
 # If User isn't join this controller, go to join function
