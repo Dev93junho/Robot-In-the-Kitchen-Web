@@ -29,6 +29,6 @@ Verification of the kinematical principle of the robotics model
 
 ### Application
  
-## Contributors
+## Contributors : Team SHINRobotics
 - Junho Shin : S/W Design, PM
 - EngHo Shin : H/W Design
