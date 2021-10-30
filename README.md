@@ -6,12 +6,12 @@
 - Changed to PUBLIC Repo follow the "AI Robotics Hackerthon in MAGOK" Policy since Oct.2021
 
 ## Configuration
-### Advanced Robot Assistance System
+### 01.Advanced Robot Assistance System
 #### Inverse Kinematics 
 #### Collision Detection
 #### Collab System
 #### Trouble shooting 
-### flask Remote Controller 
+### 02.flask Remote Controller 
 #### Front-End
 
 #### Back-End
