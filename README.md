@@ -3,7 +3,7 @@
 ## Description
 - This project is Upgrade version of [KitchenMaster](https://github.com/MinTpie30/KitchenMaster)
 - In Progress since Sep.2021
-- Change the PUBLIC Repo follow the "AI Robotics Hackerthon in MAGOK" Poilcy
+- Changed to PUBLIC Repo follow the "AI Robotics Hackerthon in MAGOK" Policy since Oct.2021
 
 ## Configuration
 ### Advanced Robot Assistance System
