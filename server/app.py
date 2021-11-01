@@ -3,10 +3,14 @@ This app is contoller for Kitchen Master2
 Written by Junho Shin, 09-2021
 """
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__) # Flask object instance 
+app.secret_key = "secret"
+socketio = SocketIO(app)
 
+user_no = 1
 
 @app.route('/') #url routing
 def index(): # View function call 
