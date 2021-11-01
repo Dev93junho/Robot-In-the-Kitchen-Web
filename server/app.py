@@ -2,6 +2,9 @@
 This app is contoller for Kitchen Master2
 Written by Junho Shin, 09-2021
 """
+#!/usr/bin/env python
+#coding: utf-8
+
 
 from flask import Flask, render_template, request, session
 from flask_socketio import SocketIO, emit
