@@ -8,17 +8,14 @@
 
     </head>
     <body>
-        <div id="nav">
-            <h5>title</h5>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8  offset-lg-2">
+                    <h3 class="mt-5">Live Streaming</h3>
+                    <img src="{{ url_for('video_feed') }}" width="100%">
+                </div>
+            </div>
         </div>
-        <form>
-            <input type="image" id="bot_status">
-        </form>
-
-        <form method="get, post">
-            <input type="button" id="btn_playbot" value="실행하기">
-        </form>
-
-    </body>
+        </body>
 
 </html>
