@@ -10,14 +10,12 @@ import heapq
 def dijkstra(graph, start):
     distances = {node: float('inf') for node in graph} # start로부터 거리 값을 저장하기 위함
     distances[start] = 0 # 시작값은 0부터 
-
     queue = []
 
     heapq.heappush(queue, [distances[start], start]) # 시작 노드부터 탐색시작
 
     while queue:
         current_distance, current_destination = heapq.heappop # 탐색할 노드와 거리를 가져옴
-    
         if distances[current_destination] < current_distance: # 기존 거리보다 길면 무시
             continue
 
