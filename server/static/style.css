@@ -2,7 +2,7 @@ body{background: #fff; margin: 0; padding: 1rem;}
 #nav{width: 100%; height: 64px; background-color: skyblue; position: fixed;}
 #btn_playbot{margin-left: auto; margin-right: auto; margin-top: 10em; width: 30%; height: 55px; background-color: skyblue; border-radius: 5px; border-style: none;}
 #bot_status{margin-top: 10rem; width: 80em; height: 80em; border-radius: 15px; background-color: blueviolet;}
-.row{display: grid;}
+.row{display: flex;}
 .video{width: 80%;}
 .video>h3{text-align: center;}
 .sidebar{width: 20%;}
