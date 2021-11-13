@@ -1,11 +1,11 @@
-/* 
+/*
 Inverse Kinematics model initialize
 Created by Junho Shin in Nov. 2021
 */
 
 #include <iostream>
 #include <Eigen/Dense>
-
+#include <vector>
 using namespace std;
 
 // need to define goal coordinate from external system
@@ -14,6 +14,9 @@ void pointArray(float x, float y, float z){
 }
 
 // output data using theta array for joint rotate
+void thetaArray(){
+
+}
 
 int main(void){
 
