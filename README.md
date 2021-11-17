@@ -5,18 +5,10 @@
 - In Progress since Sep.2021
 - Transer to PUBLIC Repo according to the "[AI Robotics Hackerthon in MAGOK](https://m-hackathon.tistory.com/)" Policy, since Oct.2021
 
-## Configuration
-### 01.Advanced Robot Assistance System
-#### Inverse Kinematics 
-#### Collision Detection
-#### Collab System
-#### Trouble shooting 
-- reinitialize system
-> Save Final coordinate
-### 02.flask Remote Controller 
-#### Front-End
+## Configuration___flask Remote Controller 
+### 01. Front-End
 - FLASK static html 
-#### Back-End
+### 02. Back-End
 - Camera & Mapping Module
 > Generate 3D map data merging image data and distance data
 > read the image from Fixed CAM system on real-time
@@ -25,8 +17,8 @@
 - Control System
 > - Load Map data from Mapping Module
 > - Operate world coordinate data 
-## Utils
-### KinematicSim
+### 03. Utils
+#### KinematicSim
 Verification of the kinematical principle of the robotics model
 ## Contributors : Team SHINRobotics
 - Junho Shin : S/W Design, PM
