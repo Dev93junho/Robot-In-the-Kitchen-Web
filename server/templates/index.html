@@ -14,10 +14,22 @@
                     <img src="{{ url_for('video_feed') }}" width="80%">
                 </div>
                 <div class="sidebar">
-                    <div>사용자명</div>
-                    <div>기기 이름</div>
-                    <div>작동여부</div>
-                    <div>수동전환</div>
+                    <div class="user_status">
+                        <h3>User Information</h3>
+                        <li>username : user001</li>
+                        <li>device info : RoKi</li>
+                    </div>
+                    <div class="device_state">
+                        <h3>Device State</h3>
+                        <svg></svg>
+                    </div>
+                    <div class="mode_change">
+                        <h3>Activation Mode</h3>
+                        <form>
+                            <input type="button" name="manual" value="manual" alt="manual mode button">
+                            <input type="button" name="auto" value="auto" alt="auto mode button">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

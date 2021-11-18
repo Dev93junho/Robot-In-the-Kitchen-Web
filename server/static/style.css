@@ -1,8 +1,15 @@
-body{background: #fff; margin: 0; padding: 1rem;}
-#nav{width: 100%; height: 64px; background-color: skyblue; position: fixed;}
+body{background: #fff; margin: 0;}
 #btn_playbot{margin-left: auto; margin-right: auto; margin-top: 10em; width: 30%; height: 55px; background-color: skyblue; border-radius: 5px; border-style: none;}
 #bot_status{margin-top: 10rem; width: 80em; height: 80em; border-radius: 15px; background-color: blueviolet;}
 .row{display: flex;}
 .video{width: 80%;}
+.video>img{width: 100%;}
 .video>h3{text-align: center;}
-.sidebar{width: 20%;}
+.sidebar{width: 30%; background-color: #c4c4c4; display: flex; flex-direction: column;justify-content: space-around;}
+.user_status{display: flex; flex-direction: column; padding: 1.5em;list-style: none;}
+.user_status>h3{text-align: center;}
+.device_state{display: flex; flex-direction: column;}
+.device_state>h3{text-align: center;}
+.mode_change>h3{text-align: center;}
+.mode_change>form{display: flex; margin-left: auto; margin-right: auto; justify-content: space-around;}
+.mode_change>form>input{width: 100px; height: 55px; }
