@@ -48,6 +48,9 @@ def index(): # View function call
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route()
+def dist():
+    pass
 
 @app.route()
 def unity_to_flask():
