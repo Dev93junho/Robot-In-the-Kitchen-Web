@@ -49,6 +49,18 @@ def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+@app.route()
+def unity_to_flask():
+    pass
+
+@app.route()
+def bot_to_flask():
+    pass
+
+@app.route()
+def sidebar():
+    pass
+
 
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
