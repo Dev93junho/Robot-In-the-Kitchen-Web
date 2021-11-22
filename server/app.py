@@ -8,8 +8,10 @@ Written by Junho Shin, 09-2021
 from flask import Flask, render_template, request, stream_with_context, Response
 from flask import stream_with_context
 import cv2
-from threading import Thread
 from queue import Queue
+import socket, threading
+import time
+from datetime import datetime
 # from flask_socketio import SocketIO, emit
 
 
@@ -48,21 +50,21 @@ def index(): # View function call
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route()
-def dist():
-    pass
+# @app.route()
+# def dist():
+#     pass
 
-@app.route()
-def unity_to_flask():
-    pass
+# @app.route()
+# def unity_to_flask():
+#     pass
 
-@app.route()
-def bot_to_flask():
-    pass
+# @app.route()
+# def bot_to_flask():
+#     pass
 
-@app.route()
-def sidebar():
-    pass
+# @app.route()
+# def sidebar():
+#     pass
 
 
 if __name__ == '__main__':
