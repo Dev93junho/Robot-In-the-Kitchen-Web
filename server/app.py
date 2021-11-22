@@ -20,6 +20,25 @@ app = Flask(__name__) # Flask object instance
 app.secret_key = "secret"
 # socketio = SocketIO(app)
 
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
+server_socket.bind()
+server_socket.listen()
+client_socket, addr=server_socket.accept()
+print('Connected by', addr)
+
+k=0
+
+# infinity loop per 2s
+while True:
+    msg="test" + str(k)
+    client_socket.sendall(msg.encode())
+    print('done'+str(k))
+    k+=1
+    time.sleep(2)
+
+    client_socket.close()
+    server_socket.close()
 
 user_no = 1
 
