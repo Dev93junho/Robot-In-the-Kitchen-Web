@@ -4,11 +4,12 @@
 - This project is Upgrade version of [KitchenMaster](https://github.com/MinTpie30/KitchenMaster)
 - In Progress since Sep.2021
 - Transer to PUBLIC Repo according to the "[AI Robotics Hackerthon in MAGOK](https://m-hackathon.tistory.com/)" Policy, since Oct.2021
----------------------- Specs --------------------------
+
+- --------------------- Specs --------------------------
 - Receive Unity simulator depth camera data
 - can Visualize Space Mapping
 - Compute Object Detection & Trajectory Planning
--------------------------------------------------------
+- ------------------------------------------------------
 ## Configuration___flask Remote Controller 
 ### 01. Front-End
 - FLASK static html 
