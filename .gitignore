@@ -530,3 +530,4 @@ MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,c++,vs
 __pycache__/
+server/__pycache__/app.cpython-39.pyc
