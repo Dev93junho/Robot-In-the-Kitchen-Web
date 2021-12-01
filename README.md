@@ -5,7 +5,8 @@
 - In Progress since Sep.2021
 - Transer to PUBLIC Repo according to the "[AI Robotics Hackerthon in MAGOK](https://m-hackathon.tistory.com/)" Policy, since Oct.2021
 
----------------------- Specs --------------------------
+-------------------------------------------------------
+### specs
 - Receive Unity simulator depth camera data
 - can Visualize Space Mapping
 - Compute Object Detection & Trajectory Planning
