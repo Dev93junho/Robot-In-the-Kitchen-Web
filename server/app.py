@@ -85,7 +85,34 @@ def video_feed():
 # def sidebar():
 #     pass
 
+@app.route('/yolo')
+def yolo():
+    import cv2
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import time
+    import os
+    
+    # Load Unity Realsense
+    sim_cam=cv2.imread('')
+    
+    weights_path = ''
+    config_path= ''
+    
+    load_yolo_tiny=cv2.dnn.readNetFromDarknet(config_path, weights_path)
+    
+    conf_threshold = 1
+    nms_threshold = 2
+    
+    # detected_obj 
+    detected_obj = get_detected_obj(load_yolo_tiny, sim_cam, conf_threshold=conf_threshold, nms_threshold=nms_threshold, is_print=True)
 
+    img_rgb = cv2.cvtColor(detected_obj, cv2.COLOR_BGR2RGB)
+
+    plt.figure(figsize=(12, 12))
+    plt.imshow(img_rgb)
+    
+    
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
 
