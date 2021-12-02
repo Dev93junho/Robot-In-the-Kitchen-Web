@@ -1,6 +1,8 @@
 """
-This app is contoller for Kitchen Master2
-Written by Junho Shin, 09-2021
+1. This app is contoller for Kitchen Master2
+2. Change the project name to Robot-in-the-Kitchen
+
+Written by Junho Shin, since 09-2021
 """
 #coding: utf-8
 
@@ -71,6 +73,9 @@ def video_feed():
 
 @app.route('/yolo')
 def yolo():
+    '''
+        It can be real-time object capture 
+    '''
     import cv2
     import matplotlib.pyplot as plt
     import numpy as np
@@ -81,7 +86,7 @@ def yolo():
     sim_cam=cv2.imread(video_feed)
     
     weights_path = './models/yolov3-tiny.weights'
-    config_path= './models/yolov3-tiny.cfg'
+    config_path = './models/yolov3-tiny.cfg'
     
     load_yolo_tiny=cv2.dnn.readNet(config_path, weights_path)
     
@@ -93,9 +98,29 @@ def yolo():
 
     img_rgb = cv2.cvtColor(detected_obj, cv2.COLOR_BGR2RGB)
 
-    plt.figure(figsize=(12, 12))
-    plt.imshow(img_rgb)
-    
+    # plt.figure(figsize=(12, 12))
+    # plt.imshow(img_rgb)
+    return Response(img_rgb)
+
+
+@app.route('/mapping')
+def mapping():
+    '''
+        measure the object's 3D coordination using Unity sim and YOLO data
+        1. Print 3D point cloud environment using mapping function
+        2. Compute coordination among YOLO captured objects 
+        3. send object coordination to /send_to_jetson  
+    '''
+    pass
+
+@app.route('/send_to_jetson')
+def send_to_jetson():
+    '''
+        object coordinate send function
+        1. receive data from /mapping
+        2. send 3d coordinaion data to jetson nano in this route
+    '''
+    pass
     
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
