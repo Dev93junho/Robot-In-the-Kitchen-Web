@@ -78,12 +78,12 @@ def yolo():
     import os
     
     # Load Unity Realsense
-    sim_cam=cv2.imread('')
+    sim_cam=cv2.imread(video_feed)
     
-    weights_path = ''
-    config_path= ''
+    weights_path = './models/yolov3-tiny.weights'
+    config_path= './models/yolov3-tiny.cfg'
     
-    load_yolo_tiny=cv2.dnn.readNetFromDarknet(config_path, weights_path)
+    load_yolo_tiny=cv2.dnn.readNet(config_path, weights_path)
     
     conf_threshold = 1
     nms_threshold = 2
