@@ -62,12 +62,14 @@ def gen_frames():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
 
 
-
+#Define main template. If you enter the controller app, you will be watched this page first
 @app.route('/') #url routing
 def index(): # View function call
     return render_template('index.html') # template, seem to user
 
-@app.route('/video_feed')
+
+#Receive Unity streaming data. export to index page and yolo 
+@app.route('/video_feed') 
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -102,7 +104,7 @@ def yolo():
     # plt.imshow(img_rgb)
     return Response(img_rgb)
 
-
+#Coordinate Whole Environment 
 @app.route('/mapping')
 def mapping():
     '''
@@ -113,6 +115,7 @@ def mapping():
     '''
     pass
 
+# send to jetson
 @app.route('/send_to_jetson')
 def send_to_jetson():
     '''
