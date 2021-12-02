@@ -24,9 +24,7 @@
 - Control System
 > - Load Map data from Mapping Module
 > - Operate world coordinate data 
-### 03. Utils
-#### KinematicSim
-Verification of the kinematical principle of the robotics model
+
 ## Contributors : Team SHINRobotics
 - Junho Shin : S/W Design, PM
 - EngHo Shin : H/W Design
