@@ -6,20 +6,21 @@ Written by Junho Shin, since 09-2021
 """
 #coding: utf-8
 
-
+from __future__ import absolute_import, division, print_function, nested_scopes, generators, with_statement, unicode_literals
 from flask import Flask, render_template, request, stream_with_context, Response
 from flask import stream_with_context
 import cv2
-from queue import Queue
-import socket, threading
-import time
-from datetime import datetime
+# from queue import Queue
+# import socket, threading
+# import time
+# from datetime import datetime
 # from flask_socketio import SocketIO, emit
 
 
 #initialize the Flask app
 app = Flask(__name__) # Flask object instance 
 app.secret_key = "secret"
+
 # socketio = SocketIO(app)
 
 # server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -41,6 +42,7 @@ app.secret_key = "secret"
 
 #     client_socket.close()
 #     server_socket.close()
+   
 
 user_no = 1
 
@@ -62,13 +64,26 @@ def gen_frames():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
 
 
+class YOLO(object):
+    _defaults = {
+        # "model_path": 'models/yolo.h5',
+        "weights_path":  './models/yolov3-tiny.weights',
+        "cfg_path" : './models/yolov3-tiny.cfg',
+        # "anchors_path": 'models/tiny_yolo_anchors.txt',
+        # "classes_path": 'models/coco_classes.txt',
+        "score" : 0.3,
+        "iou" : 0.45,
+        "model_image_size" : (416, 416),
+        "gpu_num" : 1,
+    }
+
 #Define main template. If you enter the controller app, you will be watched this page first
 @app.route('/') #url routing
 def index(): # View function call
     return render_template('index.html') # template, seem to user
 
 
-#Receive Unity streaming data. export to index page and yolo 
+#Receive Unity streaming data. export to index page
 @app.route('/video_feed') 
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -78,19 +93,13 @@ def yolo():
     '''
         It can be real-time object capture 
     '''
-    import cv2
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import time
-    import os
-    
     # Load Unity Realsense
     sim_cam=cv2.imread(video_feed)
     
-    weights_path = './models/yolov3-tiny.weights'
-    config_path = './models/yolov3-tiny.cfg'
+    weights_path =  './models/yolov3-tiny.weights'
+    cfg_path = './models/yolov3-tiny.cfg'
     
-    load_yolo_tiny=cv2.dnn.readNet(config_path, weights_path)
+    load_yolo_tiny=cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
     
     conf_threshold = 1
     nms_threshold = 2
