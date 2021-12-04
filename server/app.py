@@ -38,20 +38,6 @@ def gen_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
 
-
-class YOLO(object):
-    _defaults = {
-        # "model_path": 'models/yolo.h5',
-        "weights_path":  './models/yolov3-tiny.weights',
-        "cfg_path" : './models/yolov3-tiny.cfg',
-        # "anchors_path": 'models/tiny_yolo_anchors.txt',
-        # "classes_path": 'models/coco_classes.txt',
-        "score" : 0.3,
-        "iou" : 0.45,
-        "model_image_size" : (416, 416),
-        "gpu_num" : 1,
-    }
-
 #Define main template. If you enter the controller app, you will be watched this page first
 @app.route('/') #url routing
 def index(): # View function call
@@ -76,18 +62,18 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/yolo')
-def yolo():
+@app.route('/yolo', methods=['GET', 'POST'])
+def predict(Response):
     '''
         It can be real-time object capture 
     '''
     # Load Unity Realsense
-    sim_cam=cv2.imread(video_feed)
+    sim_cam=cv2.imread(Response)
     
-    weights_path =  './models/yolov3-tiny.weights'
+    weights_path =  './models/tiny.weights'
     cfg_path = './models/yolov3-tiny.cfg'
     
-    load_yolo_tiny=cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
+    load_yolo_tiny=cv2.dnn.readNet(cfg_path, weights_path)
     
     conf_threshold = 1
     nms_threshold = 2
@@ -102,7 +88,7 @@ def yolo():
     return Response(img_rgb)
 
 #Coordinate Whole Environment 
-@app.route('/mapping')
+@app.route('/mapping', methods=['GET', 'POST'])
 def mapping():
     '''
         measure the object's 3D coordination using Unity sim and YOLO data
@@ -110,13 +96,11 @@ def mapping():
         2. Compute coordination among YOLO captured objects 
         3. send object coordination to /send_to_jetson  
     '''
-    
-    
-    
+
     pass
 
 # send to jetson
-@app.route('/send_to_jetson')
+@app.route('/send_to_jetson', methods=['GET', 'POST'])
 def send_to_jetson():
     '''
         object coordinate send function
