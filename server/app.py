@@ -45,11 +45,11 @@ def index(): # View function call
 
 
 #open Session
-@app.route('/session')
+@app.route('/session', methods=['GET','POST'])
 def sessions():
     return render_template('index.html')
 
-def messageReceived(methods=['GET','POST']):
+def messageReceived():
     print("received!")
     
 @socketio.on('my event')
@@ -62,7 +62,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/yolo', methods=['GET', 'POST'])
+@app.route('/pred', methods=['GET', 'POST'])
 def predict(Response):
     '''
         It can be real-time object capture 
