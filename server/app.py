@@ -1,48 +1,23 @@
-"""
-1. This app is contoller for Kitchen Master2
-2. Change the project name to Robot-in-the-Kitchen
+# """
+# 1. This app is contoller for Kitchen Master2
+# 2. Change the project name to Robot-in-the-Kitchen
 
-Written by Junho Shin, since 09-2021
-"""
+# Written by Junho Shin, since 09-2021
+# """
 #coding: utf-8
 
 from __future__ import absolute_import, division, print_function, nested_scopes, generators, with_statement, unicode_literals
 from flask import Flask, render_template, request, stream_with_context, Response
 from flask import stream_with_context
+from flask_socketio import SocketIO
 import cv2
-# from queue import Queue
-# import socket, threading
-# import time
-# from datetime import datetime
-# from flask_socketio import SocketIO, emit
-
 
 #initialize the Flask app
-app = Flask(__name__) # Flask object instance 
+app = Flask(__name__) # Flask object instance
+app.config['SECRET_KEY'] = 'SET THE PW' 
 app.secret_key = "secret"
 
-# socketio = SocketIO(app)
-
-# server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
-# server_socket.bind()
-# server_socket.listen()
-# client_socket, addr=server_socket.accept()
-# print('Connected by', addr)
-
-# k=0
-
-# # infinity loop per 2s
-# while True:
-#     msg="test" + str(k)
-#     client_socket.sendall(msg.encode())
-#     print('done'+str(k))
-#     k+=1
-#     time.sleep(2)
-
-#     client_socket.close()
-#     server_socket.close()
-   
+socketio = SocketIO(app) # Casulize Web server
 
 user_no = 1
 
@@ -83,7 +58,20 @@ def index(): # View function call
     return render_template('index.html') # template, seem to user
 
 
-#Receive Unity streaming data. export to index page
+#open Session
+@app.route('/session')
+def sessions():
+    return render_template('index.html')
+
+def messageReceived(methods=['GET','POST']):
+    print("received!")
+    
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
+
+#Receive webcam streaming data. export to index page
 @app.route('/video_feed') 
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -122,6 +110,9 @@ def mapping():
         2. Compute coordination among YOLO captured objects 
         3. send object coordination to /send_to_jetson  
     '''
+    
+    
+    
     pass
 
 # send to jetson
@@ -136,6 +127,4 @@ def send_to_jetson():
     
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
-
-
 
