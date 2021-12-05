@@ -535,3 +535,5 @@ __pycache__/
 server/__pycache__/app.cpython-39.pyc
 >>>>>>> 09eae1073b2ad7c470b5febfad151d02b5c52f05
 server/darknet/
+
+*.weights
