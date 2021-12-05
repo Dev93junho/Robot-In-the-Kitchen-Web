@@ -10,11 +10,10 @@ from __future__ import absolute_import, division, print_function, nested_scopes,
 from flask import Flask, render_template, request, stream_with_context, Response
 from flask import stream_with_context
 import cv2
-import yolo_detection
 import numpy as np
-# import argparse
 import time
-# import os
+
+
 
 #initialize the Flask app
 app = Flask(__name__) # Flask object instance
@@ -28,95 +27,55 @@ for ip camera use - rtsp://username:password@ip_address:554/user=username_passwo
 for local webcam use cv2.Videocamerature(0)
 '''
 config_path='cfg/tiny.cfg'
-weights_path='yolov3.weights'
+weights_path='tiny.weights'
 cv_net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
-conf_threshold = 0.2
-nms_threshold = 0.4
-camera = cv2.VideoCapture(0)
+# conf_threshold = 0.2
+# nms_threshold = 0.4
 
-
-def get_detected_img(cv_net, camera, conf_threshold=conf_threshold, nms_threshold=nms_threshold):
-    # while True:
-    #     success, frame = camera.read()  # read the camera frame
-    #     if not success:
-    #         break
-    #     else:
-    #         ret, buffer = cv2.imencode('.png', frame)
-    #         frame = buffer.tobytes()
-    #         yield (b'--frame\r\n'
-    #                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
-
-
+def gen_frames():
+    camera = cv2.VideoCapture(0)
     # Read until video is completed
     while(camera.isOpened()):
-        success, frame = camera.read()  # import image
-        if not success: #if vid finish repeat
-            frame = cv2.VideoCapture(0)
+        ret, frame = camera.read()  # import image
+        if not ret: #if vid finish repeat
+            frame = cv2.VideoCapture(1)
             continue
-        if success:  # if there is a frame continue with code
-            rows = camera.shape[0]
-            cols = camera.shape[1]
-            draw_img = camera.copy()
-
-            layer_names = cv_net.getLayerNames()
-            outlayer_names = [layer_names[i[0] - 1] for i in cv_net.getUnconnectedOutLayers()]
-
-            cv_net.setInput(cv2.dnn.blobFromImage(camera, scalefactor=1/255.0, size=(416, 416), swapRB=True, crop=False))
-            start = time.time()
-            # Object Detection 수행하여 결과를 cvOut으로 반환
-            cv_outs = cv_net.forward(outlayer_names)
-            layerOutputs = cv_net.forward(outlayer_names)
-            # bounding box의 테두리와 caption 글자색 지정
-            green_color=(0, 255, 0)
-            red_color=(0, 0, 255)
-
-            class_ids = []
-            confidences = []
-            boxes = []
-
-            # 3개의 개별 output layer별로 Detect된 Object들에 대해서 Detection 정보 추출 및 시각화 
-            for ix, output in enumerate(cv_outs):
-                # Detected된 Object별 iteration
-                for jx, detection in enumerate(output):
-                    scores = detection[5:]
-                    class_id = np.argmax(scores)
-                    confidence = scores[class_id]
-                    # confidence가 지정된 conf_threshold보다 작은 값은 제외
-                    if confidence > conf_threshold:
-
-                        center_x = int(detection[0] * cols)
-                        center_y = int(detection[1] * rows)
-                        width = int(detection[2] * cols)
-                        height = int(detection[3] * rows)
-                        left = int(center_x - width / 2)
-                        top = int(center_y - height / 2)
-                        # 3개의 개별 output layer별로 Detect된 Object들에 대한 class id, confidence, 좌표정보를 모두 수집
-                        class_ids.append(class_id)
-                        confidences.append(float(confidence))
-                        boxes.append([left, top, width, height])
-            # NMS로 최종 filtering된 idxs를 이용하여 boxes, classes, confidences에서 해당하는 Object정보를 추출하고 시각화.
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
-            if len(idxs) > 0:
-                for i in idxs.flatten():
-                    box = boxes[i]
-                    left = box[0]
-                    top = box[1]
-                    width = box[2]
-                    height = box[3]
-                    # # labels_to_names 딕셔너리로 class_id값을 클래스명으로 변경. opencv에서는 class_id + 1로 매핑해야함.
-                    # caption = "{}: {:.4f}".format(labels_to_names_seq[class_ids[i]], confidences[i])
-                    #cv2.rectangle()은 인자로 들어온 draw_img에 사각형을 그림. 위치 인자는 반드시 정수형.
-                    cv2.rectangle(draw_img, (int(left), int(top)), (int(left+width), int(top+height)), color=green_color, thickness=2)
-                    cv2.putText(draw_img, (int(left), int(top - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, red_color, 1)
-        # cv2.imshow("countours", image)
-        frame = cv2.imencode('.jpg', draw_img)[1].tobytes()
+        if ret:  # if there is a frame continue with code
+            image = cv2.resize(frame, (0, 0), None, 1, 1)  # resize image
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # converts image to gray
+            fgmask = sub.apply(gray)  # uses the background subtraction
+            kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))  # kernel to apply to the morphology
+            closing = cv2.morphologyEx(fgmask, cv2.MORPH_CLOSE, kernel)
+            opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, kernel)
+            dilation = cv2.dilate(opening, kernel)
+            # retvalbin, bins = cv2.threshold(dilation, 220, 255, cv2.THRESH_BINARY)  # removes the shadows
+            contours, hierarchy = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            minarea = 400
+            maxarea = 50000
+            for i in range(len(contours)):  # cycles through all contours in current frame
+                if hierarchy[0, i, 3] == -1:  # using hierarchy to only count parent contours (contours not within others)
+                    area = cv2.contourArea(contours[i])  # area of contour
+                    if minarea < area < maxarea:  # area threshold for contour
+                        # calculating centroids of contours
+                        cnt = contours[i]
+                        M = cv2.moments(cnt)
+                        cx = int(M['m10'] / M['m00'])
+                        cy = int(M['m01'] / M['m00'])
+                        # gets bounding points of contour to create rectangle
+                        # x,y is top left corner and w,h is width and height
+                        x, y, w, h = cv2.boundingRect(cnt)
+                        # creates a rectangle around contour
+                        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                        # Prints centroid text in order to double check later on
+                        cv2.putText(image, str(cx) + "," + str(cy), (cx + 10, cy + 10), cv2.FONT_HERSHEY_SIMPLEX,.3, (0, 0, 255), 1)
+                        cv2.drawMarker(image, (cx, cy), (0, 255, 255), cv2.MARKER_CROSS, markerSize=8, thickness=3,line_type=cv2.LINE_8)
+        #cv2.imshow("countours", image)
+        frame = cv2.imencode('.jpg', image)[1].tobytes()
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         #time.sleep(0.1)
         key = cv2.waitKey(20)
         if key == 27:
-            break
-
-
+           break
 
 #Define main template. If you enter the controller app, you will be watched this page first
 @app.route('/') #url routing
@@ -126,7 +85,8 @@ def index(): # View function call
 #Receive webcam streaming data. export to index page
 @app.route('/video_feed')
 def video_feed():
-    return Response(get_detected_img(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(), 
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #Coordinate Whole Environment
 @app.route('/mapping', methods=['GET', 'POST'])
