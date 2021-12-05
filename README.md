@@ -28,3 +28,7 @@
 ## Contributors : Team SHINRobotics
 - Junho Shin : S/W Design, PM
 - EngHo Shin : H/W Design
+
+## Reference
+Proceedings : [A Study on Deep Learning Based RobotArm System](https://www.koreascience.or.kr/article/CFKO202025036028266.page)
+Baseline : [YOLOv3-withWebServer](https://github.com/zxqcreations/YOLOv3-withWebServer)
