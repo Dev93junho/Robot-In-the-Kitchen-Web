@@ -26,9 +26,9 @@ user_no = 1
 for ip camera use - rtsp://username:password@ip_address:554/user=username_password='password'_channel=channel_number_stream=0.sdp'
 for local webcam use cv2.Videocamerature(0)
 '''
-config_path='cfg/tiny.cfg'
-weights_path='tiny.weights'
-cv_net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
+# config_path='cfg/tiny.cfg'
+# weights_path='tiny.weights'
+# cv_net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
 # conf_threshold = 0.2
 # nms_threshold = 0.4
 
@@ -38,7 +38,7 @@ def gen_frames():
     while(camera.isOpened()):
         ret, frame = camera.read()  # import image
         if not ret: #if vid finish repeat
-            frame = cv2.VideoCapture(1)
+            frame = cv2.VideoCapture(0)
             continue
         if ret:  # if there is a frame continue with code
             image = cv2.resize(frame, (0, 0), None, 1, 1)  # resize image
@@ -73,7 +73,7 @@ def gen_frames():
         frame = cv2.imencode('.jpg', image)[1].tobytes()
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         #time.sleep(0.1)
-        key = cv2.waitKey(20)
+        key = cv2.waitKey(1)
         if key == 27:
            break
 
@@ -87,28 +87,6 @@ def index(): # View function call
 def video_feed():
     return Response(gen_frames(), 
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-
-#Coordinate Whole Environment
-@app.route('/mapping', methods=['GET', 'POST'])
-def mapping():
-    '''
-        measure the object's 3D coordination using Unity sim and YOLO data
-        1. Print 3D point cloud environment using mapping function
-        2. Compute coordination among YOLO cameratured objects
-        3. send object coordination to /send_to_jetson
-    '''
-
-    pass
-
-# send to jetson
-@app.route('/send_to_jetson', methods=['GET', 'POST'])
-def send_to_jetson():
-    '''
-        object coordinate send function
-        1. receive data from /mapping
-        2. send 3d coordinaion data to jetson nano in this route
-    '''
-    pass
     
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
